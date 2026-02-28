@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clone X - Capstone 1</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main id="app" class="app-shell"></main>
+
+    <template id="welcome-template">
+      <section class="welcome-layout">
+        <div class="welcome-logo-wrap">
+          <div class="x-mark" aria-hidden="true">X</div>
+        </div>
+        <div class="welcome-panel">
+          <h1>Ca se passe maintenant</h1>
+          <h2>Inscrivez-vous.</h2>
+          <button id="open-signup" class="btn btn-primary">Creer un compte</button>
+          <div class="divider"><span>ou</span></div>
+          <p class="helper-text">Vous avez deja un compte ?</p>
+          <button id="open-login" class="btn btn-outline">Se connecter</button>
+        </div>
+      </section>
+    </template>
+
+    <template id="app-template">
+      <div class="layout">
+        <aside class="sidebar">
+          <div class="brand">X</div>
+          <nav class="nav-menu">
+            <button data-view="home" class="nav-link active">Accueil</button>
+            <button data-view="explore" class="nav-link">Explorer</button>
+            <button data-view="notifications" class="nav-link">Notifications</button>
+            <button data-view="messages" class="nav-link">Messages</button>
+            <button data-view="grok" class="nav-link">Grok</button>
+            <button data-view="bookmarks" class="nav-link">Signets</button>
+            <button data-view="communities" class="nav-link">Communautes</button>
+            <button data-view="premium" class="nav-link">Premium</button>
+            <button data-view="organizations" class="nav-link">Organisations</button>
+            <button data-view="profile" class="nav-link">Profil</button>
+            <button data-view="more" class="nav-link">Plus</button>
+          </nav>
+          <button id="sidebar-post" class="btn btn-primary btn-wide">Poster</button>
+          <div class="user-chip">
+            <div class="avatar" id="sidebar-avatar"></div>
+            <div>
+              <p id="sidebar-name"></p>
+              <p id="sidebar-handle" class="muted"></p>
+            </div>
+          </div>
+          <button id="logout-btn" class="btn btn-outline">Se deconnecter</button>
+        </aside>
+
+        <section class="feed-panel">
+          <header class="feed-header">
+            <div class="tabs">
+              <button class="tab active">Pour vous</button>
+              <button class="tab">Abonnements</button>
+            </div>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Changer le theme">Theme</button>
+          </header>
+
+          <form id="tweet-form" class="tweet-box hidden">
+            <div class="avatar" id="composer-avatar"></div>
+            <div class="tweet-input-wrap">
+              <textarea
+                id="tweet-content"
+                maxlength="280"
+                placeholder="What's happening?"
+                required
+              ></textarea>
+              <div class="composer-media-row">
+                <input id="tweet-image-input" type="file" accept="image/*" class="hidden" />
+                <button type="button" id="tweet-image-btn" class="btn btn-outline">Ajouter une photo</button>
+                <button type="button" id="tweet-image-remove" class="btn btn-outline hidden">Retirer la photo</button>
+                <span id="tweet-image-name" class="muted"></span>
+              </div>
+              <img id="tweet-image-preview" class="tweet-image-preview hidden" alt="Apercu image publication" />
+              <div class="tweet-actions">
+                <span id="char-counter">0/280</span>
+                <button type="submit" class="btn btn-primary">Poster</button>
+              </div>
+            </div>
+          </form>
+
+          <div id="feed-list" class="tweet-list"></div>
+        </section>
+
+        <aside class="right-panel">
+          <div class="search-box">
+            <input id="search-input" type="text" placeholder="Chercher" />
+          </div>
+          <section class="card">
+            <h3>Vous pourriez aimer</h3>
+            <ul id="suggestions-list" class="simple-list"></ul>
+          </section>
+          <section class="card">
+            <h3>Ce qui se passe</h3>
+            <ul class="simple-list" id="trends-list"></ul>
+          </section>
+        </aside>
+      </div>
+    </template>
+
+    <template id="profile-template">
+      <section class="profile-page">
+        <div class="profile-cover" id="profile-cover"></div>
+        <div class="profile-cover-actions">
+          <input id="cover-input" type="file" accept="image/*" class="hidden" />
+          <button class="btn btn-outline" id="cover-change-btn">Changer couverture</button>
+          <button class="btn btn-outline" id="cover-remove-btn">Supprimer couverture</button>
+        </div>
+        <div class="profile-head">
+          <div class="profile-avatar-wrap">
+            <div class="avatar avatar-xl" id="profile-avatar"></div>
+            <div class="profile-avatar-actions">
+              <input id="avatar-input" type="file" accept="image/*" class="hidden" />
+              <button class="btn btn-outline" id="avatar-change-btn">Changer photo</button>
+              <button class="btn btn-outline" id="avatar-remove-btn">Supprimer photo</button>
+            </div>
+          </div>
+          <div>
+            <h2 id="profile-name"></h2>
+            <p class="muted" id="profile-handle"></p>
+            <p class="bio" id="profile-bio"></p>
+          </div>
+        </div>
+        <div class="stats" id="profile-stats"></div>
+        <h3>Posts</h3>
+        <div id="profile-tweets" class="tweet-list"></div>
+      </section>
+    </template>
+
+    <dialog id="auth-dialog" class="auth-dialog">
+      <form method="dialog" class="auth-card" id="auth-form">
+        <button type="button" class="dialog-close" id="close-auth">x</button>
+        <h2 id="auth-title">Se connecter</h2>
+        <div id="signup-only" class="hidden">
+          <input name="name" placeholder="Nom et prenom" />
+          <input name="username" placeholder="Pseudo" />
+        </div>
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Mot de passe" required />
+        <button type="submit" class="btn btn-primary btn-wide" id="auth-submit">Continuer</button>
+        <p class="muted" id="auth-switch-line"></p>
+      </form>
+    </dialog>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
